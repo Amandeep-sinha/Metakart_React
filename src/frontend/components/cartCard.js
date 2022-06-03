@@ -2,16 +2,28 @@ import { useAuth } from "../context/auth-context";
 import { useCart } from "../context/cart-context";
 import { removeFromCart } from "../services/removeFromCart";
 import { updateQuantity } from "../services/updateQuantity";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { addProductsToWishlist } from "../services/addProductsToWishlist";
+import { useWishlist } from "../context/wishlist-context";
+import { toast } from "react-toastify";
 
 export default function CartCard({ products }) {
   const { auth } = useAuth();
-  const { cart, setCart } = useCart();
+  const { cart, cartdispatch } = useCart();
+  const { wishlist, wishlistdispatch } = useWishlist();
+  const navigate = useNavigate();
   const remove = async () => {
     const res = await removeFromCart(products._id, auth.token);
     if (res.status === 200) {
-      setCart((prev) => ({ ...prev, cartProducts: res.data.cart }));
+      cartdispatch({
+        type: "SET_CART",
+        payload: res.data.cart,
+      });
+      toast.success(` ${products.title} removed from Cart`);
     } else {
       console.log(error);
+      toast.error(`Cannot remove ${products.title}`);
     }
   };
   const update = async (type) => {
@@ -19,17 +31,57 @@ export default function CartCard({ products }) {
     try {
       if (products.qty === 1 && type === "decrement") {
         res = await removeFromCart(products._id, auth.token);
-        setCart((prev) => ({ ...prev, cartProducts: res.data.cart }));
+        toast.success(` ${products.title} removed from Cart`);
       } else {
         res = await updateQuantity(products._id, auth.token, type);
-        setCart((prev) => ({ ...prev, cartProducts: res.data.cart }));
+        toast.info("Cart Updated Sucessfully");
       }
 
       if (res.status === 200) {
-        setCart((prev) => ({ ...prev, cartProducts: res.data.cart }));
+        cartdispatch({
+          type: "SET_CART",
+          payload: res.data.cart,
+        });
       }
     } catch (error) {
       console.log(error);
+      toast.error("Cannot Updated Cart at the moment");
+    }
+  };
+
+  const addToWishlist = async () => {
+    if (auth.isAuth) {
+      try {
+        const res = await addProductsToWishlist(products, auth.token);
+        if (res.status === 201) {
+          const findProduct = wishlist.wishlistProducts.find(
+            (item) => item._id === products._id
+          );
+          if (findProduct) {
+            toast.error(`${products.title} already exist in the wishlist`);
+          }
+          if (!findProduct) {
+            wishlistdispatch({
+              type: "SET_WISHLIST",
+              payload: res.data.wishlist,
+            });
+            console.log(res.data.wishlist);
+            toast.success(`${products.title} added to the wishlist`);
+
+            const cartItem = await removeFromCart(products._id, auth.token);
+            if (cartItem.status === 200) {
+              cartdispatch({
+                type: "SET_CART",
+                payload: cartItem.data.cart,
+              });
+            } else {
+              console.log(error);
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -73,7 +125,7 @@ export default function CartCard({ products }) {
                 <i onClick={() => update("increment")} className="fa fa-plus" />
               </button>
             </div>
-            <button>Save For Later </button>
+            <button onClick={() => addToWishlist()}>Save For Later </button>
             <button onClick={() => remove()}>Remove</button>
           </div>
         </div>

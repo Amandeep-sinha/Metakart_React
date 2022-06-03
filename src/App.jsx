@@ -9,6 +9,7 @@ import Signup from "./frontend/pages/signup";
 import { ProductProvider } from "./frontend/context/productListing-context";
 import Mockman from "mockman-js";
 import Signout from "./frontend/pages/signout";
+import { Wishlist } from "./frontend/pages/wishlist";
 function App() {
   return (
     <div className="App">
@@ -21,6 +22,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/mock" element={<Mockman />} />
           <Route path="/signout" element={<Signout />} />
+          <Route path="/wishlist" element={<Wishlist />} />
         </Routes>
       </ProductProvider>
     </div>

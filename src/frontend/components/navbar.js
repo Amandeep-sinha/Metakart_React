@@ -2,11 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/auth-context";
 import { useCart } from "../context/cart-context";
+import { useWishlist } from "../context/wishlist-context";
 import "../pages/main.css";
 
 export default function Navbar() {
   const { auth } = useAuth();
   const { cart } = useCart();
+  const { wishlist } = useWishlist();
   const showname = `Hi ${localStorage.getItem("name")}`;
   return (
     <nav className="top-navbar">
@@ -42,13 +44,13 @@ export default function Navbar() {
         &nbsp;&nbsp;&nbsp;
         <Link className="top-menu" to={auth.token ? "/cart" : "/signin"}>
           <i className="fa fa-shopping-cart fa-2x">
-            <span>{cart.cartProducts.length}</span>
+            <span>{auth.isAuth?cart.cartProducts.length:"0"}</span>
           </i>
         </Link>{" "}
         &nbsp;&nbsp;
         <Link className="top-menu" to={auth.token ? "/wishlist" : "/signin"}>
           <i className="fa fa-heart fa-2x">
-            <span>4</span>
+            <span>{auth.isAuth ?wishlist.wishlistProducts.length:"0"}</span>
           </i>
         </Link>
         &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;

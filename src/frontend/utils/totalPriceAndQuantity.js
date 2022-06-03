@@ -4,7 +4,7 @@ const totalQty = (array) => {
 
 const totalPrice = (array) => {
   return array.reduce(
-    (accum, initial) => (accum = accum + initial.qty * initial.price),
+    (accum, initial) => (accum = accum + initial.qty * initial.offerprice),
     0
   );
 };

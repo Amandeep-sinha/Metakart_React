@@ -8,42 +8,42 @@ import { v4 as uuid } from "uuid";
 export const categories = [
   {
     _id: uuid(),
-    categoryName: "Shirts",
+    categoryName: "Shirt",
     description:
       "literature in the form of prose, especially novels, that describes imaginary events and people",
     image: "https://bit.ly/3uSLmR4",
-    path:"/products"
+    path: "/products",
   },
   {
     _id: uuid(),
-    categoryName: "shoes",
+    categoryName: "Shoes",
     description:
       "Non-fiction is writing that gives information or describes real events, rather than telling a story.",
-      image: "https://bit.ly/3sBdN3l",
-      path:"/products"
+    image: "https://bit.ly/3sBdN3l",
+    path: "/products",
   },
   {
     _id: uuid(),
-    categoryName: "sarees",
+    categoryName: "Saree",
     description:
       "Meant to cause discomfort and fear for both the character and readers, horror writers often make use of supernatural and paranormal elements in morbid stories that are sometimes a little too realistic.",
-      image: "https://bit.ly/3gGa4fh",
-      path:"/products"
+    image: "https://bit.ly/3gGa4fh",
+    path: "/products",
   },
   {
     _id: uuid(),
     categoryName: "Activewear",
     description:
       "Non-fiction is writing that gives information or describes real events, rather than telling a story.",
-      image: "https://bit.ly/3oInQm2",
-      path:"/products"
+    image: "https://bit.ly/3oInQm2",
+    path: "/products",
   },
   {
     _id: uuid(),
-    categoryName: "jeans",
+    categoryName: "Jeans",
     description:
       "Meant to cause discomfort and fear for both the character and readers, horror writers often make use of supernatural and paranormal elements in morbid stories that are sometimes a little too realistic.",
-      image: "https://bit.ly/3uKE1mB",
-      path:"/products"
+    image: "https://bit.ly/3uKE1mB",
+    path: "/products",
   },
 ];
